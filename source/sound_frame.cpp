@@ -25,15 +25,14 @@ std::size_t SoundFrame::size() const
     return mChannelSamples.size();
 }
 
-/* Convenience method to assign values to each channel of this frame */
-SoundFrame& SoundFrame::operator=(std::initializer_list<std::int32_t> frame)
+SoundFrame& SoundFrame::operator=(std::initializer_list<std::int32_t> values)
 {
-    assert(frame.size() == mChannelSamples.size());
+    assert(values.size() == mChannelSamples.size());
 
     auto thisIt = mChannelSamples.begin();
-    auto otherIt = frame.begin();
+    auto otherIt = values.begin();
 
-    while (otherIt != frame.end())
+    while (otherIt != values.end())
     {
         std::int32_t& oldData = *thisIt;
         const std::int32_t& newData = *otherIt;
@@ -42,6 +41,20 @@ SoundFrame& SoundFrame::operator=(std::initializer_list<std::int32_t> frame)
 
         ++thisIt;
         ++otherIt;
+    }
+
+    return *this;
+}
+
+SoundFrame& SoundFrame::operator=(const std::int32_t value)
+{
+    auto thisIt = mChannelSamples.begin();
+
+    while (thisIt != mChannelSamples.end())
+    {
+        std::int32_t& oldValue = *thisIt;
+        oldValue = value;
+        ++thisIt;
     }
 
     return *this;

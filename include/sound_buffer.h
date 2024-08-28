@@ -16,6 +16,8 @@ class SoundBuffer
 public:
     SoundBuffer(unsigned int sampleRate, unsigned int channels);
 
+    void init(unsigned int milliseconds);
+
     const std::vector<std::int32_t>& buffer() const;
 
     std::vector<std::int32_t>& buffer();

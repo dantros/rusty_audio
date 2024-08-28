@@ -11,3 +11,10 @@ add_executable(demo_audio_buffer
 set_property(TARGET demo_audio_buffer PROPERTY CXX_STANDARD 20)
 target_include_directories(demo_audio_buffer PRIVATE ${RUSTY_AUDIO_INCLUDE})
 target_link_libraries(demo_audio_buffer PRIVATE rusty_audio)
+
+add_executable(demo_sound_buffer
+    "demo_sound_buffer.cpp"
+)
+set_property(TARGET demo_sound_buffer PROPERTY CXX_STANDARD 20)
+target_include_directories(demo_sound_buffer PRIVATE ${RUSTY_AUDIO_INCLUDE})
+target_link_libraries(demo_sound_buffer PRIVATE rusty_audio)
