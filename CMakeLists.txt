@@ -11,6 +11,11 @@ add_library(rusty_audio
     "source/sound_manager_impl.cpp"
     "source/audio_buffer.cpp"
     "source/audio_buffer_impl.cpp"
+
+    "source/sound_frame.cpp"
+    "source/sound_buffer_iterator.cpp"
+    "source/sound_buffer.cpp"
+
     ${HEADERS}
 )
 set_property(TARGET rusty_audio PROPERTY CXX_STANDARD 20)
