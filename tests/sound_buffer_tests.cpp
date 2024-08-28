@@ -1,4 +1,5 @@
 #include <gtest/gtest.h>
+#include <sound_buffer.h>
 
 // Demonstrate some basic assertions.
 TEST(HelloTest, BasicAssertions) {

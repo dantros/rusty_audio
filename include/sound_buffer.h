@@ -42,7 +42,7 @@ public:
         while (otherIt != frame.end())
         {
             std::int32_t& oldData = *thisIt;
-            std::int32_t& newData = *otherIt;
+            const std::int32_t& newData = *otherIt;
 
             oldData = newData;
 
@@ -56,6 +56,8 @@ public:
 private:
     std::span<std::int32_t> mChannelSamples;
 };
+
+class SoundBuffer;
 
 /* Basic iteratior to obtain SoundFrame elements from the SoundBuffer container */
 class SoundBufferIterator
@@ -127,11 +129,6 @@ public:
         return mChannels;
     }
 
-    SoundFrame at(const std::size_t frameIndex) const
-    {
-        return {mBuffer, frameIndex, mChannels};
-    }
-
     SoundFrame at(const std::size_t frameIndex)
     {
         return {mBuffer, frameIndex, mChannels};
@@ -154,7 +151,7 @@ public:
 
 private:
     unsigned int mSampleRate;
-    unsigned int mChannels;
+    std::size_t mChannels;
     std::vector<std::int32_t> mBuffer;
 };
 
