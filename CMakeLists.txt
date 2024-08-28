@@ -25,6 +25,11 @@ set(RUSTY_AUDIO_INCLUDE
     #PARENT_SCOPE
 )
 
+# TODO add options so this is not the default.
+add_subdirectory("third_party/googletest")
+set(GOOGLETEST_INCLUDE "third_party/googletest/googletest/include")
+add_subdirectory("tests")
+
 option(RUSTY_AUDIO_INSTALL "Do you whish to install RustyAudio static library?" ON)
 if (${RUSTY_AUDIO_INSTALL})
     include(GNUInstallDirs)
