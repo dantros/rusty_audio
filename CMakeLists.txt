@@ -9,6 +9,8 @@ file(GLOB_RECURSE HEADERS "source/*.h" "include/*.h")
 add_library(rusty_audio
     "source/rusty_audio.cpp"
     "source/sound_manager_impl.cpp"
+    "source/audio_buffer.cpp"
+    "source/audio_buffer_impl.cpp"
     ${HEADERS}
 )
 set_property(TARGET rusty_audio PROPERTY CXX_STANDARD 20)
@@ -41,7 +43,7 @@ if (${RUSTY_AUDIO_INSTALL})
         add_subdirectory("examples")
 
         if (${RUSTY_AUDIO_BUILD_EXAMPLES})
-            install(TARGETS hello_rusty_audio
+            install(TARGETS hello_rusty_audio demo_audio_buffer
                 RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
                     COMPONENT RustyAudioExamples_Runtime
                 LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
