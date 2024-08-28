@@ -32,7 +32,7 @@
             "name": "ninja-release-examples",
             "inherits": "ninja-release",
             "cacheVariables": {
-                "NOTHOFAGUS_BUILD_EXAMPLES": "ON"
+                "RUSTY_AUDIO_BUILD_EXAMPLES": "ON"
             }
         },
         {
@@ -48,7 +48,7 @@
             "name": "vs-debug-examples",
             "inherits": "vs-debug",
             "cacheVariables": {
-                "NOTHOFAGUS_BUILD_EXAMPLES": "ON"
+                "RUSTY_AUDIO_BUILD_EXAMPLES": "ON"
             }
         }
     ]
