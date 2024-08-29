@@ -34,9 +34,13 @@ set(RUSTY_AUDIO_INCLUDE
 )
 
 # TODO add options so this is not the default.
+#[[option(BUILD_GMOCK "Builds the googlemock subproject" OFF)
+option(INSTALL_GTEST "Enable installation of googletest. (Projects embedding googletest may want to turn this OFF.)" OFF)
+option(GTEST_HAS_ABSL "Use Abseil and RE2. Requires Abseil and RE2 to be separately added to the build." OFF)
 add_subdirectory("third_party/googletest")
 set(GOOGLETEST_INCLUDE "third_party/googletest/googletest/include")
 add_subdirectory("tests")
+#]]
 
 option(RUSTY_AUDIO_INSTALL "Do you whish to install RustyAudio static library?" ON)
 if (${RUSTY_AUDIO_INSTALL})
@@ -55,8 +59,9 @@ if (${RUSTY_AUDIO_INSTALL})
     if (${RUSTY_AUDIO_BUILD_EXAMPLES})
         add_subdirectory("examples")
 
+        #[[
         if (${RUSTY_AUDIO_BUILD_EXAMPLES})
-            install(TARGETS hello_rusty_audio demo_audio_buffer
+            install(TARGETS demo_sound_buffer
                 RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
                     COMPONENT RustyAudioExamples_Runtime
                 LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
@@ -66,5 +71,6 @@ if (${RUSTY_AUDIO_INSTALL})
                     COMPONENT RustyAudioExamples_Development
             )
         endif()
+        #]]
     endif()
 endif()
