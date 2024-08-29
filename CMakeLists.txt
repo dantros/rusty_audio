@@ -17,6 +17,7 @@ add_library(rusty_audio
     "source/sound_buffer.cpp"
     "source/sound_player.cpp"
     "source/sound_player_impl.cpp"
+    "source/sound_builder.cpp"
 
     ${HEADERS}
 )

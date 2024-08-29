@@ -1,7 +1,9 @@
 #pragma once
 
+#include "sound_frame.h"
 #include <cstdint>
 #include <cstddef>
+#include <vector>
 
 namespace RustyAudio
 {
@@ -9,13 +11,19 @@ namespace RustyAudio
 class SoundDescriptor
 {
 public:
-    SoundDescriptor(unsigned int sampleRate, unsigned int channels);
+    SoundDescriptor(unsigned int duration) :
+        mDuration(duration)
+    {}
     
-    virtual std::int32_t operator()(float milliseconds) const;
+    virtual std::int32_t operator()(unsigned int milliseconds) const { return 0; };
 
-private:
-    unsigned int mSampleRate;
-    std::size_t mChannels;
+    unsigned int duration() const
+    {
+        return mDuration;
+    }
+
+protected:
+    unsigned int mDuration;
 };
 
 }
