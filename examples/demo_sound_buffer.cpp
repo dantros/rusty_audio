@@ -3,15 +3,19 @@
 #include <cmath>
 #include <limits>
 #include <iostream>
-#include <sound_buffer.h>
+#include <numbers>
+#include <sound_player.h>
 
 int main()
 {
-    constexpr unsigned int sampleRate = 1000;
+    constexpr unsigned int sampleRate = 48000;
     RustyAudio::SoundBuffer soundBuffer(sampleRate, 2);
 
-    const unsigned int milliseconds = 10;
+    const unsigned int milliseconds = 5000;
     soundBuffer.init(milliseconds);
+
+    const float frequency_hz = 500.0f;
+    const float frequency_rad = 2 * std::numbers::pi * frequency_hz;
 
     for (size_t frame = 0; frame < soundBuffer.frames() ; ++frame)
     {
@@ -19,7 +23,7 @@ int main()
         const float t = static_cast<float>(frame) / sampleRate;
 
         /* sampling a sinusoid */
-        const float sample = std::sin(500.0 * t);
+        const float sample = std::sin(frequency_rad * t);
 
         /* casting it to int32 */
         constexpr std::int32_t max = (std::numeric_limits<std::int32_t>::max)()*0.9; // artifacts if we reach the maximum value
@@ -30,5 +34,10 @@ int main()
         soundFrame = integerSample;
     }
 
+    RustyAudio::SoundPlayer soundPlayer(soundBuffer);
+
+    soundPlayer.play();
+
     std::cout << "Hi!";
+    getchar();
 }
