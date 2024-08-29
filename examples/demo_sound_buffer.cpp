@@ -1,10 +1,10 @@
 
 #include <sound_buffer.h>
+#include <sound_player.h>
 #include <cmath>
 #include <limits>
 #include <iostream>
 #include <numbers>
-#include <sound_player.h>
 
 int main()
 {
