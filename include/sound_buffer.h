@@ -26,6 +26,8 @@ public:
 
     std::size_t frames() const;
 
+    unsigned int sampleRate() const;
+
     std::size_t channels() const;
 
     SoundFrame at(const std::size_t frameIndex);

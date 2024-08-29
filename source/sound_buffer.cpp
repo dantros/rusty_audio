@@ -37,6 +37,11 @@ std::size_t SoundBuffer::frames() const
     return mBuffer.size() / mChannels;
 }
 
+unsigned int SoundBuffer::sampleRate() const
+{
+    return mSampleRate;
+}
+
 std::size_t SoundBuffer::channels() const
 {
     return mChannels;
