@@ -16,10 +16,12 @@ public:
     void pause();
     void stop();
     bool isPlaying() const;
+    bool isLooping() const;
+    void setLooping(bool looping);
 
 private:
-    class SoundPlayerImpl;
-    std::unique_ptr<SoundPlayerImpl> mSoundPlayerImpl;
+    class PlayerImpl;
+    std::unique_ptr<PlayerImpl> mSoundPlayerImpl;
 };
 
 }

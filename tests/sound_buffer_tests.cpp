@@ -3,6 +3,6 @@
 
 // Demonstrate some basic assertions.
 TEST(SoundDescriptorSinusoid01, BasicAssertions) {
-  RustyAudio::WaveformSinusoid desc(1000, 600.0f);
+  RustyAudio::WaveformSinusoid desc(1000, 1.0f, 600.0f);
   EXPECT_EQ(desc(100), 1843);
 }

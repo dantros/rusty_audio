@@ -7,7 +7,7 @@ namespace RustyAudio
 
 Player::Player(Buffer& soundBuffer)
 {
-    mSoundPlayerImpl = std::make_unique<SoundPlayerImpl>(soundBuffer);
+    mSoundPlayerImpl = std::make_unique<PlayerImpl>(soundBuffer);
 }
 
 Player::~Player()
@@ -31,6 +31,16 @@ void Player::stop()
 bool Player::isPlaying() const
 {
     return mSoundPlayerImpl->isPlaying();
+}
+
+bool Player::isLooping() const
+{
+    return mSoundPlayerImpl->isLooping();
+}
+
+void Player::setLooping(bool looping)
+{
+    mSoundPlayerImpl->setLooping(looping);
 }
 
 }

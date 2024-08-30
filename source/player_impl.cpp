@@ -4,7 +4,7 @@
 namespace RustyAudio
 {
 
-Player::SoundPlayerImpl::SoundPlayerImpl(Buffer& soundBuffer):
+Player::PlayerImpl::PlayerImpl(Buffer& soundBuffer):
     mSoundBuffer(soundBuffer)
 {
     ma_result result;
@@ -40,31 +40,42 @@ Player::SoundPlayerImpl::SoundPlayerImpl(Buffer& soundBuffer):
     ma_node_attach_output_bus(&mSound, 0, ma_engine_get_endpoint(&mEngine), 0);
 }
 
-Player::SoundPlayerImpl::~SoundPlayerImpl()
+Player::PlayerImpl::~PlayerImpl()
 {
     ma_sound_uninit(&mSound);
     ma_audio_buffer_uninit(&mAudioBuffer);
     ma_engine_uninit(&mEngine);
 }
 
-void Player::SoundPlayerImpl::play()
+void Player::PlayerImpl::play()
 {
     ma_sound_start(&mSound);
 }
 
-void Player::SoundPlayerImpl::pause()
+void Player::PlayerImpl::pause()
 {
-
+    ma_sound_stop(&mSound);
 }
 
-void Player::SoundPlayerImpl::stop()
+void Player::PlayerImpl::stop()
 {
-
+    ma_sound_stop(&mSound);
+    ma_sound_seek_to_pcm_frame(&mSound, 0);
 }
 
-bool Player::SoundPlayerImpl::isPlaying() const
+bool Player::PlayerImpl::isPlaying() const
 {
-    return false;
+    return ma_sound_is_playing(&mSound);
+}
+
+bool Player::PlayerImpl::isLooping() const
+{
+    return ma_sound_is_looping(&mSound);
+}
+
+void Player::PlayerImpl::setLooping(bool looping)
+{
+    ma_sound_set_looping(&mSound, looping);
 }
 
 }
