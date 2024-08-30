@@ -8,13 +8,13 @@ namespace RustyAudio
 {
 
 // forward declaration to avoid the cyclical dependency
-class SoundBufferIterator;
+class BufferIterator;
 
 /* Container for all the data samples in a contiguous interleaved container for efficiency and compatibility with miniaudio API. */
-class SoundBuffer
+class Buffer
 {
 public:
-    SoundBuffer(unsigned int sampleRate, unsigned int channels);
+    Buffer(unsigned int sampleRate, unsigned int channels);
 
     /* Initialize a block of memory with value 0 to store the sound wave */
     void init(unsigned int milliseconds);
@@ -30,11 +30,11 @@ public:
     std::size_t channels() const;
 
     /* SoundFrame facade element access */
-    SoundFrame at(const std::size_t frameIndex);
+    Frame at(const std::size_t frameIndex);
 
     /* Iterator interface*/
-    SoundBufferIterator begin();
-    SoundBufferIterator end();
+    BufferIterator begin();
+    BufferIterator end();
 
     /* Interface to the underlying data */
     std::int32_t* data();

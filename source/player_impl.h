@@ -8,10 +8,10 @@
 namespace RustyAudio
 {
 
-class SoundPlayer::SoundPlayerImpl
+class Player::SoundPlayerImpl
 {
 public:
-    SoundPlayerImpl(SoundBuffer& soundBuffer);
+    SoundPlayerImpl(Buffer& soundBuffer);
     ~SoundPlayerImpl();
 
     void play();
@@ -20,7 +20,7 @@ public:
     bool isPlaying() const;
 
 private:
-    SoundBuffer& mSoundBuffer;
+    Buffer& mSoundBuffer;
     ma_engine g_engine;
     ma_sound g_sound;
     ma_audio_buffer audioBuffer;

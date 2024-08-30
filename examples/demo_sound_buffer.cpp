@@ -8,7 +8,7 @@
 int main()
 {
     constexpr unsigned int sampleRate = 48000;
-    RustyAudio::SoundBuffer soundBuffer(sampleRate, 2);
+    RustyAudio::Buffer soundBuffer(sampleRate, 2);
 
     const unsigned int milliseconds = 5000;
     soundBuffer.init(milliseconds);
@@ -29,11 +29,11 @@ int main()
         const float scaledSample = max * sample;
         std::int32_t integerSample = static_cast<std::int32_t>(scaledSample);
 
-        RustyAudio::SoundFrame soundFrame = soundBuffer.at(frame);
+        RustyAudio::Frame soundFrame = soundBuffer.at(frame);
         soundFrame = integerSample;
     }
 
-    RustyAudio::SoundPlayer soundPlayer(soundBuffer);
+    RustyAudio::Player soundPlayer(soundBuffer);
 
     soundPlayer.play();
 

@@ -5,32 +5,32 @@
 namespace RustyAudio
 {
 
-SoundBufferIterator::SoundBufferIterator(SoundBuffer* soundBuffer) :
+BufferIterator::BufferIterator(Buffer* soundBuffer) :
     mSoundBufferPtr(soundBuffer), mCurrentIndex{0}
 {}
 
-SoundBufferIterator::SoundBufferIterator(SoundBuffer* soundBuffer, std::size_t currentIndex) :
+BufferIterator::BufferIterator(Buffer* soundBuffer, std::size_t currentIndex) :
     mSoundBufferPtr(soundBuffer), mCurrentIndex{currentIndex}
 {}
 
-bool SoundBufferIterator::operator!=(const SoundBufferIterator& other) const
+bool BufferIterator::operator!=(const BufferIterator& other) const
 {
     return !(*this == other);
 }
 
-bool SoundBufferIterator::operator==(const SoundBufferIterator& other) const
+bool BufferIterator::operator==(const BufferIterator& other) const
 {
     return mSoundBufferPtr == other.mSoundBufferPtr and
         mCurrentIndex == other.mCurrentIndex;
 }
 
-SoundBufferIterator& SoundBufferIterator::operator++()
+BufferIterator& BufferIterator::operator++()
 {
     ++mCurrentIndex;
     return *this;
 }
 
-SoundFrame SoundBufferIterator::operator*()
+Frame BufferIterator::operator*()
 {
     return {mSoundBufferPtr->buffer(), mCurrentIndex, mSoundBufferPtr->channels()};
 }

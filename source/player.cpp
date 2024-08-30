@@ -5,30 +5,30 @@
 namespace RustyAudio
 {
 
-SoundPlayer::SoundPlayer(SoundBuffer& soundBuffer)
+Player::Player(Buffer& soundBuffer)
 {
     mSoundPlayerImpl = std::make_unique<SoundPlayerImpl>(soundBuffer);
 }
 
-SoundPlayer::~SoundPlayer()
+Player::~Player()
 {}
 
-void SoundPlayer::play()
+void Player::play()
 {
     mSoundPlayerImpl->play();
 }
 
-void SoundPlayer::pause()
+void Player::pause()
 {
     mSoundPlayerImpl->pause();
 }
 
-void SoundPlayer::stop()
+void Player::stop()
 {
     mSoundPlayerImpl->stop();
 }
 
-bool SoundPlayer::isPlaying() const
+bool Player::isPlaying() const
 {
     return mSoundPlayerImpl->isPlaying();
 }

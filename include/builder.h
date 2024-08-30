@@ -8,13 +8,13 @@
 namespace RustyAudio
 {
 
-class SoundBuilder
+class Builder
 {
 public:
-    SoundBuilder();
-    ~SoundBuilder();
+    Builder();
+    ~Builder();
     void enqueue(std::unique_ptr<Waveform> soundDescriptorPtr);
-    SoundBuffer generate(unsigned int sampleRate, unsigned int channels);
+    Buffer generate(unsigned int sampleRate, unsigned int channels);
 
 private:
     std::vector<std::unique_ptr<Waveform>> mDescriptors;

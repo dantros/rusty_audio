@@ -6,22 +6,22 @@
 namespace RustyAudio
 {
 
-SoundBuilder::SoundBuilder()
+Builder::Builder()
 {
 
 }
 
-SoundBuilder::~SoundBuilder()
+Builder::~Builder()
 {
 
 }
 
-void SoundBuilder::enqueue(std::unique_ptr<Waveform> soundDescriptorPtr)
+void Builder::enqueue(std::unique_ptr<Waveform> soundDescriptorPtr)
 {
     mDescriptors.push_back(std::move(soundDescriptorPtr));
 }
 
-SoundBuffer SoundBuilder::generate(unsigned int sampleRate, unsigned int channels)
+Buffer Builder::generate(unsigned int sampleRate, unsigned int channels)
 {
     unsigned int totalDuration = 0;
     for (auto& descriptor : mDescriptors)
@@ -29,7 +29,7 @@ SoundBuffer SoundBuilder::generate(unsigned int sampleRate, unsigned int channel
         totalDuration += descriptor->duration();
     }
 
-    RustyAudio::SoundBuffer soundBuffer(sampleRate, channels);
+    RustyAudio::Buffer soundBuffer(sampleRate, channels);
     soundBuffer.init(totalDuration);
 
     std::size_t waveformIndex = 0;

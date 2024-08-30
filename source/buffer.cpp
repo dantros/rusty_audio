@@ -6,64 +6,64 @@
 namespace RustyAudio
 {
 
-SoundBuffer::SoundBuffer(unsigned int sampleRate, unsigned int channels) :
+Buffer::Buffer(unsigned int sampleRate, unsigned int channels) :
     mSampleRate(sampleRate), mChannels(channels), mBuffer()
 {}
 
-void SoundBuffer::init(unsigned int milliseconds)
+void Buffer::init(unsigned int milliseconds)
 {
     const unsigned int frames = (mSampleRate * milliseconds) / 1000;
     const std::size_t size = frames * mChannels;
     mBuffer.resize(size, 0);
 }
 
-const std::vector<std::int32_t>& SoundBuffer::buffer() const
+const std::vector<std::int32_t>& Buffer::buffer() const
 {
     return mBuffer;
 }
 
-std::vector<std::int32_t>& SoundBuffer::buffer()
+std::vector<std::int32_t>& Buffer::buffer()
 {
     return mBuffer;
 }
 
-std::size_t SoundBuffer::size() const
+std::size_t Buffer::size() const
 {
     return mBuffer.size();
 }
 
-std::size_t SoundBuffer::frames() const
+std::size_t Buffer::frames() const
 {
     return mBuffer.size() / mChannels;
 }
 
-unsigned int SoundBuffer::sampleRate() const
+unsigned int Buffer::sampleRate() const
 {
     return mSampleRate;
 }
 
-std::size_t SoundBuffer::channels() const
+std::size_t Buffer::channels() const
 {
     return mChannels;
 }
 
-SoundFrame SoundBuffer::at(const std::size_t frameIndex)
+Frame Buffer::at(const std::size_t frameIndex)
 {
     assert(frameIndex < frames());
     return {mBuffer, frameIndex, mChannels};
 }
 
-SoundBufferIterator SoundBuffer::begin()
+BufferIterator Buffer::begin()
 {
-    return SoundBufferIterator(this);
+    return BufferIterator(this);
 }
 
-SoundBufferIterator SoundBuffer::end()
+BufferIterator Buffer::end()
 {
-    return SoundBufferIterator(this, size());
+    return BufferIterator(this, size());
 }
 
-std::int32_t* SoundBuffer::data()
+std::int32_t* Buffer::data()
 {
     return mBuffer.data();
 }

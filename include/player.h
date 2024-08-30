@@ -6,11 +6,11 @@
 namespace RustyAudio
 {
 
-class SoundPlayer
+class Player
 {
 public:
-    SoundPlayer(SoundBuffer& soundBuffer);
-    ~SoundPlayer();
+    Player(Buffer& soundBuffer);
+    ~Player();
 
     void play();
     void pause();

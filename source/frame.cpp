@@ -6,26 +6,26 @@
 namespace RustyAudio
 {
 
-SoundFrame::SoundFrame(std::vector<std::int32_t>& buffer, const std::size_t frame, const std::size_t channels) :
+Frame::Frame(std::vector<std::int32_t>& buffer, const std::size_t frame, const std::size_t channels) :
     mChannelSamples(buffer.begin() + (frame * channels), channels)
 {}
 
-const std::int32_t& SoundFrame::channel(const std::size_t i) const
+const std::int32_t& Frame::channel(const std::size_t i) const
 {
     return mChannelSamples[i];
 }
 
-std::int32_t& SoundFrame::channel(const std::size_t i)
+std::int32_t& Frame::channel(const std::size_t i)
 {
     return mChannelSamples[i];
 }
 
-std::size_t SoundFrame::size() const
+std::size_t Frame::size() const
 {
     return mChannelSamples.size();
 }
 
-SoundFrame& SoundFrame::operator=(std::initializer_list<std::int32_t> values)
+Frame& Frame::operator=(std::initializer_list<std::int32_t> values)
 {
     assert(values.size() == mChannelSamples.size());
 
@@ -46,7 +46,7 @@ SoundFrame& SoundFrame::operator=(std::initializer_list<std::int32_t> values)
     return *this;
 }
 
-SoundFrame& SoundFrame::operator=(const std::int32_t value)
+Frame& Frame::operator=(const std::int32_t value)
 {
     auto thisIt = mChannelSamples.begin();
 

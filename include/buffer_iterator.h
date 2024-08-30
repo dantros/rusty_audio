@@ -6,23 +6,23 @@
 namespace RustyAudio
 {
 
-class SoundBuffer;
+class Buffer;
 
 /* Basic iteratior to obtain SoundFrame elements from the SoundBuffer container */
-class SoundBufferIterator
+class BufferIterator
 {
 public:
-    SoundBufferIterator(SoundBuffer* soundBuffer);
-    SoundBufferIterator(SoundBuffer* soundBuffer, std::size_t currentIndex);
+    BufferIterator(Buffer* soundBuffer);
+    BufferIterator(Buffer* soundBuffer, std::size_t currentIndex);
 
-    bool operator!=(const SoundBufferIterator& other) const;
-    bool operator==(const SoundBufferIterator& other) const;
+    bool operator!=(const BufferIterator& other) const;
+    bool operator==(const BufferIterator& other) const;
 
-    SoundBufferIterator& operator++();
-    SoundFrame operator*();
+    BufferIterator& operator++();
+    Frame operator*();
 
 private:
-    SoundBuffer* mSoundBufferPtr;
+    Buffer* mSoundBufferPtr;
     std::size_t mCurrentIndex;
 };
 

@@ -10,7 +10,7 @@ int main()
     constexpr unsigned int sampleRate = 48000;
     constexpr unsigned int channels = 2;
 
-    RustyAudio::SoundBuilder soundBuilder;
+    RustyAudio::Builder soundBuilder;
     soundBuilder.enqueue(std::make_unique<RustyAudio::WaveformSinusoid>(500, 200.0f));
     soundBuilder.enqueue(std::make_unique<RustyAudio::WaveformSinusoid>(700, 400.0f));
     soundBuilder.enqueue(std::make_unique<RustyAudio::WaveformSinusoid>(500, 200.0f));
@@ -23,9 +23,9 @@ int main()
     //for (int i = 0 ; i < 10; i++)
     //    soundBuilder.enqueue(std::make_unique<RustyAudio::SoundDescriptorSinusoid>(1000, 200.0f + i*50));
 
-    RustyAudio::SoundBuffer soundBuffer = soundBuilder.generate(sampleRate, channels);
+    RustyAudio::Buffer soundBuffer = soundBuilder.generate(sampleRate, channels);
 
-    RustyAudio::SoundPlayer soundPlayer(soundBuffer);
+    RustyAudio::Player soundPlayer(soundBuffer);
 
     soundPlayer.play();
 
