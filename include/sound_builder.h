@@ -1,7 +1,7 @@
 #pragma once
 
 #include "sound_buffer.h"
-#include "sound_descriptor.h"
+#include "waveform.h"
 #include <memory>
 #include <vector>
 
@@ -13,11 +13,11 @@ class SoundBuilder
 public:
     SoundBuilder();
     ~SoundBuilder();
-    void enqueue(std::unique_ptr<SoundDescriptor> soundDescriptorPtr);
+    void enqueue(std::unique_ptr<Waveform> soundDescriptorPtr);
     SoundBuffer generate(unsigned int sampleRate, unsigned int channels);
 
 private:
-    std::vector<std::unique_ptr<SoundDescriptor>> mDescriptors;
+    std::vector<std::unique_ptr<Waveform>> mDescriptors;
 };
 
 }

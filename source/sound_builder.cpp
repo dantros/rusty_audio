@@ -16,7 +16,7 @@ SoundBuilder::~SoundBuilder()
 
 }
 
-void SoundBuilder::enqueue(std::unique_ptr<SoundDescriptor> soundDescriptorPtr)
+void SoundBuilder::enqueue(std::unique_ptr<Waveform> soundDescriptorPtr)
 {
     mDescriptors.push_back(std::move(soundDescriptorPtr));
 }
@@ -32,34 +32,34 @@ SoundBuffer SoundBuilder::generate(unsigned int sampleRate, unsigned int channel
     RustyAudio::SoundBuffer soundBuffer(sampleRate, channels);
     soundBuffer.init(totalDuration);
 
-    std::size_t currentDescriptorIndex = 0;
-    unsigned int currentDescriptorStartTime = 0;
+    std::size_t waveformIndex = 0;
+    unsigned int waveformStartTime = 0;
 
-    SoundDescriptor* currentDescriptorPtr = mDescriptors.at(currentDescriptorIndex).get();
-    assert(currentDescriptorPtr != nullptr);
+    Waveform* waveformPtr = mDescriptors.at(waveformIndex).get();
+    assert(waveformPtr != nullptr);
 
     const float deltaTimeMilliseconds = static_cast<float>(totalDuration) / soundBuffer.frames();
 
     for (std::size_t frame = 0; frame < soundBuffer.frames() ; ++frame)
     {
         const unsigned int milliseconds = frame * deltaTimeMilliseconds;
-        const unsigned int localTime = milliseconds - currentDescriptorStartTime;
+        const unsigned int localTime = milliseconds - waveformStartTime;
 
-        SoundDescriptor& currentDescriptor = *currentDescriptorPtr;
-        const std::int32_t sample = currentDescriptor(localTime);
+        Waveform& waveform = *waveformPtr;
+        const std::int32_t sample = waveform(localTime);
         soundBuffer.at(frame) = sample;
 
         // if this is the last sample of the current descriptor, we need to switch to the next descriptor for the next sample.
-        if (localTime == currentDescriptor.duration() - 1)
+        if (localTime == waveform.duration() - 1)
         {
-            currentDescriptorStartTime += currentDescriptor.duration();
-            ++currentDescriptorIndex;
+            waveformStartTime += waveform.duration();
+            ++waveformIndex;
 
             // maybe we are in the last descriptor, we dont want to go out of bounds.
-            if (currentDescriptorIndex != mDescriptors.size())
+            if (waveformIndex != mDescriptors.size())
             {
-                currentDescriptorPtr = mDescriptors.at(currentDescriptorIndex).get();
-                assert(currentDescriptorPtr != nullptr);
+                waveformPtr = mDescriptors.at(waveformIndex).get();
+                assert(waveformPtr != nullptr);
 
                 
             }

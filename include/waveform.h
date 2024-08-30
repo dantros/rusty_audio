@@ -8,10 +8,10 @@
 namespace RustyAudio
 {
 
-class SoundDescriptor
+class Waveform
 {
 public:
-    SoundDescriptor(unsigned int duration) :
+    Waveform(unsigned int duration) :
         mDuration(duration)
     {}
     
