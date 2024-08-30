@@ -25,12 +25,12 @@ target_link_libraries(rusty_audio PRIVATE miniaudio)
 
 set(RUSTY_AUDIO_INCLUDE
     "${CMAKE_CURRENT_SOURCE_DIR}/include"
-    #PARENT_SCOPE
+    PARENT_SCOPE
 )
 
 set(MINIAUDIO_INCLUDE
     "${CMAKE_CURRENT_SOURCE_DIR}/third_party/miniaudio"
-    #PARENT_SCOPE
+    PARENT_SCOPE
 )
 
 option(RUSTY_AUDIO_BUILD_TESTS "Do you need tests?" OFF)
