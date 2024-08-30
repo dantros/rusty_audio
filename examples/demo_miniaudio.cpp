@@ -45,11 +45,10 @@ int main(int argc, char** argv)
     }
 
     /* Audio Buffer */
-    constexpr unsigned int sampleRate = 48000;
-    RustyAudio::Buffer soundBuffer(sampleRate, 2);
-
     const unsigned int milliseconds = 5000;
-    soundBuffer.init(milliseconds);
+    constexpr unsigned int sampleRate = 48000;
+    RustyAudio::Buffer soundBuffer;
+    soundBuffer.init(milliseconds, sampleRate, 2);
 
     const float frequency_hz = 500.0f;
     const float frequency_rad = 2 * std::numbers::pi * frequency_hz;    

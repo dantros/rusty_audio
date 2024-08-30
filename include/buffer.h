@@ -23,11 +23,17 @@ public:
     const std::vector<std::int32_t>& buffer() const;
     std::vector<std::int32_t>& buffer();
 
-    /* getters */
+    /* Getters */
     std::size_t size() const;
     std::size_t frames() const;
     unsigned int sampleRate() const;
     std::size_t channels() const;
+
+    /* Time in milliseconds associated to a specific frame */
+    unsigned int time(std::size_t frame) const;
+
+    /* Total duration in milliseconds of this sound */
+    unsigned int duration() const;
 
     /* SoundFrame facade element access */
     Frame at(const std::size_t frameIndex);

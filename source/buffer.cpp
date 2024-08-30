@@ -52,6 +52,16 @@ std::size_t Buffer::channels() const
     return mChannels;
 }
 
+unsigned int Buffer::time(std::size_t frame) const
+{
+    return (frame * duration()) / frames();
+}
+
+unsigned int Buffer::duration() const
+{
+    return (1000 * frames()) / mSampleRate;
+}
+
 Frame Buffer::at(const std::size_t frameIndex)
 {
     assert(frameIndex < frames());

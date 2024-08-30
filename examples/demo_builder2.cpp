@@ -26,7 +26,8 @@ int main()
 
     RustyAudio::Buffer soundBuffer = soundBuilder.generate(sampleRate, channels);
 
-    RustyAudio::Player soundPlayer(soundBuffer);
+    RustyAudio::Player soundPlayer;
+    soundPlayer.init(soundBuffer);
 
     std::cout << "Press enter to play";
     getchar(); 
