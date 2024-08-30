@@ -11,7 +11,7 @@ namespace RustyAudio
 
 class SoundDescriptorSinusoid : public SoundDescriptor
 {
-private:
+protected:
     // sound artifacts if we reach the maximum value
     static constexpr std::int32_t MAX_INT32 = (std::numeric_limits<std::int32_t>::max)()*0.9; 
 public:

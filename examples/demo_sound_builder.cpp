@@ -15,8 +15,10 @@ int main()
     soundBuilder.enqueue(std::make_unique<RustyAudio::SoundDescriptorSinusoid>(700, 400.0f));
     soundBuilder.enqueue(std::make_unique<RustyAudio::SoundDescriptorSinusoid>(500, 200.0f));
     soundBuilder.enqueue(std::make_unique<RustyAudio::SoundDescriptorSinusoid>(700, 400.0f));
-    soundBuilder.enqueue(std::make_unique<RustyAudio::SoundDescriptorSinusoid>(500, 200.0f));
-    soundBuilder.enqueue(std::make_unique<RustyAudio::SoundDescriptorSinusoid>(700, 400.0f));
+    soundBuilder.enqueue(std::make_unique<RustyAudio::SoundDescriptorSquared>(500, 200.0f));
+    soundBuilder.enqueue(std::make_unique<RustyAudio::SoundDescriptorSquared>(700, 400.0f));
+    soundBuilder.enqueue(std::make_unique<RustyAudio::SoundDescriptorSquared>(500, 200.0f));
+    soundBuilder.enqueue(std::make_unique<RustyAudio::SoundDescriptorSquared>(700, 400.0f));
 
     //for (int i = 0 ; i < 10; i++)
     //    soundBuilder.enqueue(std::make_unique<RustyAudio::SoundDescriptorSinusoid>(1000, 200.0f + i*50));
