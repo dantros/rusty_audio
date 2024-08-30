@@ -7,17 +7,12 @@ add_subdirectory("third_party/miniaudio_cmake")
 file(GLOB_RECURSE HEADERS "source/*.h" "include/*.h")
 
 add_library(rusty_audio
-    "source/rusty_audio.cpp"
-    "source/sound_manager_impl.cpp"
-    "source/audio_buffer.cpp"
-    "source/audio_buffer_impl.cpp"
-
-    "source/sound_frame.cpp"
     "source/sound_buffer_iterator.cpp"
     "source/sound_buffer.cpp"
-    "source/sound_player.cpp"
-    "source/sound_player_impl.cpp"
     "source/sound_builder.cpp"
+    "source/sound_frame.cpp"
+    "source/sound_player_impl.cpp"
+    "source/sound_player.cpp"
 
     ${HEADERS}
 )
@@ -30,7 +25,11 @@ target_link_libraries(rusty_audio PRIVATE miniaudio)
 
 set(RUSTY_AUDIO_INCLUDE
     "${CMAKE_CURRENT_SOURCE_DIR}/include"
-    "${CMAKE_CURRENT_SOURCE_DIR}/third_party/miniaudio" #TODO remove this
+    #PARENT_SCOPE
+)
+
+set(MINIAUDIO_INCLUDE
+    "${CMAKE_CURRENT_SOURCE_DIR}/third_party/miniaudio"
     #PARENT_SCOPE
 )
 

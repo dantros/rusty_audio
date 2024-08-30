@@ -1,5 +1,10 @@
 #pragma once
 
-#include "audio_buffer.h"
-#include "sound_manager.h"
+#include "sound_buffer.h"
+#include "sound_buffer_iterator.h"
+#include "sound_builder.h"
+#include "sound_descriptor.h"
+#include "sound_descriptor_sinusoid.h"
+#include "sound_frame.h"
+#include "sound_player.h"
 #include "note.h"

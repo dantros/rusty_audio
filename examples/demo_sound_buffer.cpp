@@ -1,6 +1,5 @@
 
-#include <sound_buffer.h>
-#include <sound_player.h>
+#include <rusty_audio.h>
 #include <cmath>
 #include <limits>
 #include <iostream>
@@ -38,6 +37,6 @@ int main()
 
     soundPlayer.play();
 
-    std::cout << "Hi!";
+    std::cout << "Press enter to finish";
     getchar();
 }
