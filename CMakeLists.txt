@@ -34,13 +34,13 @@ set(MINIAUDIO_INCLUDE
 )
 
 # TODO add options so this is not the default.
-#[[option(BUILD_GMOCK "Builds the googlemock subproject" OFF)
+#option(BUILD_GMOCK "Builds the googlemock subproject" OFF)
 option(INSTALL_GTEST "Enable installation of googletest. (Projects embedding googletest may want to turn this OFF.)" OFF)
 option(GTEST_HAS_ABSL "Use Abseil and RE2. Requires Abseil and RE2 to be separately added to the build." OFF)
 add_subdirectory("third_party/googletest")
 set(GOOGLETEST_INCLUDE "third_party/googletest/googletest/include")
 add_subdirectory("tests")
-#]]
+
 
 option(RUSTY_AUDIO_INSTALL "Do you whish to install RustyAudio static library?" ON)
 if (${RUSTY_AUDIO_INSTALL})

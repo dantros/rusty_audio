@@ -7,9 +7,6 @@
 
 int main()
 {
-    RustyAudio::SoundDescriptorSinusoid desc(1000, 600.0f);
-    std::cout << desc(100) << std::endl;
-
     constexpr unsigned int sampleRate = 48000;
     constexpr unsigned int channels = 2;
 
