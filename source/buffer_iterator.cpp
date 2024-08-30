@@ -1,6 +1,6 @@
 #pragma once
 
-#include "sound_buffer_iterator.h"
+#include "buffer_iterator.h"
 
 namespace RustyAudio
 {

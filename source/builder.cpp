@@ -1,6 +1,6 @@
 #pragma once
 
-#include "sound_builder.h"
+#include "builder.h"
 #include <cassert>
 
 namespace RustyAudio

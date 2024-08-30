@@ -1,7 +1,7 @@
 #pragma once
 
-#include "sound_player.h"
-#include "sound_buffer.h"
+#include "player.h"
+#include "buffer.h"
 #include <memory>
 #include <miniaudio.h>
 

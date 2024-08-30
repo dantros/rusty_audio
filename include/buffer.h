@@ -1,8 +1,8 @@
 #pragma once
 
 #include <vector>
-#include "sound_frame.h"
-#include "sound_buffer_iterator.h"
+#include "frame.h"
+#include "buffer_iterator.h"
 
 namespace RustyAudio
 {

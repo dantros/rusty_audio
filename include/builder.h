@@ -1,6 +1,6 @@
 #pragma once
 
-#include "sound_buffer.h"
+#include "buffer.h"
 #include "waveform.h"
 #include <memory>
 #include <vector>

@@ -1,6 +1,6 @@
 
-#include "sound_player.h"
-#include "sound_player_impl.h"
+#include "player.h"
+#include "player_impl.h"
 
 namespace RustyAudio
 {

@@ -7,12 +7,12 @@ add_subdirectory("third_party/miniaudio_cmake")
 file(GLOB_RECURSE HEADERS "source/*.h" "include/*.h")
 
 add_library(rusty_audio
-    "source/sound_buffer_iterator.cpp"
-    "source/sound_buffer.cpp"
-    "source/sound_builder.cpp"
-    "source/sound_frame.cpp"
-    "source/sound_player_impl.cpp"
-    "source/sound_player.cpp"
+    "source/buffer_iterator.cpp"
+    "source/buffer.cpp"
+    "source/builder.cpp"
+    "source/frame.cpp"
+    "source/player_impl.cpp"
+    "source/player.cpp"
 
     ${HEADERS}
 )

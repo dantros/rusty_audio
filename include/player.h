@@ -1,7 +1,7 @@
 #pragma once
 
 #include <memory>
-#include <sound_buffer.h>
+#include <buffer.h>
 
 namespace RustyAudio
 {

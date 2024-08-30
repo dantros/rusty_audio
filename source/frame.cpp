@@ -1,6 +1,6 @@
 #pragma once
 
-#include "sound_frame.h"
+#include "frame.h"
 #include <cassert>
 
 namespace RustyAudio

@@ -20,7 +20,7 @@ sound file, you need multiple `ma_sound` objects.
 #include <limits>
 #include <numbers>
 #include <miniaudio.h>
-#include <sound_buffer.h>
+#include <buffer.h>
 
 #define DELAY_IN_SECONDS    0.2f
 #define DECAY               0.25f   /* Volume falloff for each echo. */
