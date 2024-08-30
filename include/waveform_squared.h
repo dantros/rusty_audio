@@ -12,8 +12,8 @@ namespace RustyAudio
 class WaveformSquared : public WaveformSinusoid
 {
 public:
-    WaveformSquared(unsigned int duration, float frequencyHz) :
-        WaveformSinusoid(duration, frequencyHz)
+    WaveformSquared(unsigned int duration, float amplitude, float frequencyHz) :
+        WaveformSinusoid(duration, amplitude, frequencyHz)
     {}
     
     std::int32_t operator()(unsigned int milliseconds) const override
