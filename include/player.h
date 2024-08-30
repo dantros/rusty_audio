@@ -9,9 +9,10 @@ namespace RustyAudio
 class Player
 {
 public:
-    Player(Buffer& soundBuffer);
+    Player();
     ~Player();
 
+    void init(Buffer& soundBuffer);
     void play();
     void pause();
     void stop();

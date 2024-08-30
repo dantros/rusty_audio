@@ -41,8 +41,8 @@ Buffer Builder::generate(unsigned int sampleRate, unsigned int channels) const
         totalDuration += descriptor->duration();
     }
 
-    RustyAudio::Buffer soundBuffer(sampleRate, channels);
-    soundBuffer.init(totalDuration);
+    RustyAudio::Buffer soundBuffer;
+    soundBuffer.init(sampleRate, channels, totalDuration);
 
     std::size_t waveformIndex = 0;
     unsigned int waveformStartTime = 0;

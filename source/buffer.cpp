@@ -6,12 +6,17 @@
 namespace RustyAudio
 {
 
-Buffer::Buffer(unsigned int sampleRate, unsigned int channels) :
-    mSampleRate(sampleRate), mChannels(channels), mBuffer()
-{}
-
-void Buffer::init(unsigned int milliseconds)
+Buffer::Buffer() :
+    mSampleRate{0},
+    mChannels{0},
+    mBuffer{}
 {
+}
+
+void Buffer::init(unsigned int sampleRate, unsigned int channels, unsigned int milliseconds)
+{
+    mSampleRate = sampleRate;
+    mChannels = channels;
     const unsigned int frames = (mSampleRate * milliseconds) / 1000;
     const std::size_t size = frames * mChannels;
     mBuffer.resize(size, 0);

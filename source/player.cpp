@@ -1,17 +1,23 @@
 
 #include "player.h"
 #include "player_impl.h"
+#include <memory>
 
 namespace RustyAudio
 {
 
-Player::Player(Buffer& soundBuffer)
+Player::Player()
 {
-    mSoundPlayerImpl = std::make_unique<PlayerImpl>(soundBuffer);
 }
 
 Player::~Player()
-{}
+{
+}
+
+void Player::init(Buffer& soundBuffer)
+{
+    mSoundPlayerImpl = std::make_unique<PlayerImpl>(soundBuffer);
+}
 
 void Player::play()
 {

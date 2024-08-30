@@ -14,10 +14,10 @@ class BufferIterator;
 class Buffer
 {
 public:
-    Buffer(unsigned int sampleRate, unsigned int channels);
+    Buffer();
 
     /* Initialize a block of memory with value 0 to store the sound wave */
-    void init(unsigned int milliseconds);
+    void init(unsigned int sampleRate, unsigned int channels, unsigned int milliseconds);
 
     /* Interface to the underlying std::vector */
     const std::vector<std::int32_t>& buffer() const;
