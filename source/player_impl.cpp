@@ -13,7 +13,7 @@ Player::SoundPlayerImpl::SoundPlayerImpl(Buffer& soundBuffer):
     engineConfig.noDevice = MA_TRUE;
     engineConfig.channels = mSoundBuffer.channels();        // Must be set when not using a device.
     engineConfig.sampleRate = mSoundBuffer.sampleRate();    // Must be set when not using a device.
-    result = ma_engine_init(NULL, &g_engine);
+    result = ma_engine_init(NULL, &mEngine);
     if (result != MA_SUCCESS) {
         printf("Failed to initialize audio engine.");
         throw;
@@ -23,33 +23,33 @@ Player::SoundPlayerImpl::SoundPlayerImpl(Buffer& soundBuffer):
     
     ma_audio_buffer_config config = ma_audio_buffer_config_init(ma_format_s32, mSoundBuffer.channels(), mSoundBuffer.frames(), pExistingData, NULL);
 
-    if (ma_audio_buffer_init(&config, &audioBuffer) != MA_SUCCESS) {
+    if (ma_audio_buffer_init(&config, &mAudioBuffer) != MA_SUCCESS) {
         printf("Failed to initialize audio buffer.\n");
-        ma_audio_buffer_uninit(&audioBuffer);
+        ma_audio_buffer_uninit(&mAudioBuffer);
         throw;
     }
 
-    if (ma_sound_init_from_data_source(&g_engine, &audioBuffer, 0, NULL, &g_sound) != MA_SUCCESS)
+    if (ma_sound_init_from_data_source(&mEngine, &mAudioBuffer, 0, NULL, &mSound) != MA_SUCCESS)
     {
         printf("Failed to initialize sound from data source.\n");
-        ma_sound_uninit(&g_sound);
+        ma_sound_uninit(&mSound);
         throw;
     }
 
     /* Connect the output of the sound to the input of the effect. */
-    ma_node_attach_output_bus(&g_sound, 0, ma_engine_get_endpoint(&g_engine), 0);
+    ma_node_attach_output_bus(&mSound, 0, ma_engine_get_endpoint(&mEngine), 0);
 }
 
 Player::SoundPlayerImpl::~SoundPlayerImpl()
 {
-    ma_sound_uninit(&g_sound);
-    ma_audio_buffer_uninit(&audioBuffer);
-    ma_engine_uninit(&g_engine);
+    ma_sound_uninit(&mSound);
+    ma_audio_buffer_uninit(&mAudioBuffer);
+    ma_engine_uninit(&mEngine);
 }
 
 void Player::SoundPlayerImpl::play()
 {
-    ma_sound_start(&g_sound);
+    ma_sound_start(&mSound);
 }
 
 void Player::SoundPlayerImpl::pause()

@@ -21,9 +21,9 @@ public:
 
 private:
     Buffer& mSoundBuffer;
-    ma_engine g_engine;
-    ma_sound g_sound;
-    ma_audio_buffer audioBuffer;
+    ma_engine mEngine;
+    ma_sound mSound;
+    ma_audio_buffer mAudioBuffer;
 };
 
 }
