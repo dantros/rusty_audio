@@ -16,12 +16,24 @@ Builder::~Builder()
 
 }
 
-void Builder::enqueue(std::unique_ptr<Waveform> soundDescriptorPtr)
+void Builder::append(std::unique_ptr<Waveform> soundDescriptorPtr)
 {
     mDescriptors.push_back(std::move(soundDescriptorPtr));
 }
 
-Buffer Builder::generate(unsigned int sampleRate, unsigned int channels)
+void Builder::appendSinusoids(std::initializer_list<WaveformSinusoid> sinusoids)
+{
+    for (const auto& sinusoid : sinusoids)
+    {
+        append(std::make_unique<WaveformSinusoid>(
+            sinusoid.duration(),
+            sinusoid.amplitude(),
+            sinusoid.frequency()
+        ));
+    }
+}
+
+Buffer Builder::generate(unsigned int sampleRate, unsigned int channels) const
 {
     unsigned int totalDuration = 0;
     for (auto& descriptor : mDescriptors)

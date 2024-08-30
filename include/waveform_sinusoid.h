@@ -35,6 +35,16 @@ public:
         return static_cast<std::int32_t>(scaledSample);
     }
 
+    float amplitude() const
+    {
+        return mAmplitude;
+    }
+
+    float frequency() const
+    {
+        return mFrequencyRadMillis * 1000 / (2 * std::numbers::pi);
+    }
+
 private:
     float mAmplitude;
     float mFrequencyRadMillis;
