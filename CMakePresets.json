@@ -50,6 +50,42 @@
             "cacheVariables": {
                 "RUSTY_AUDIO_BUILD_EXAMPLES": "ON"
             }
+        },
+        {
+            "name": "linux-debug",
+            "inherits": "base",
+            "hidden": false,
+            "generator": "Unix Makefiles",
+            "cacheVariables": {
+                "CMAKE_BUILD_TYPE": "Debug",
+                "CMAKE_CXX_COMPILER": "g++",
+                "CMAKE_CXX_FLAGS": "-Wno-narrowing"
+            }
+        },
+        {
+            "name": "linux-release",
+            "inherits": "base",
+            "hidden": false,
+            "generator": "Unix Makefiles",
+            "cacheVariables": {
+                "CMAKE_BUILD_TYPE": "Release",
+                "CMAKE_CXX_COMPILER": "g++",
+                "CMAKE_CXX_FLAGS": "-Wno-narrowing"
+            }
+        },
+        {
+            "name": "linux-debug-examples",
+            "inherits": "linux-debug",
+            "cacheVariables": {
+                "RUSTY_AUDIO_BUILD_EXAMPLES": "ON"
+            }
+        },
+        {
+            "name": "linux-release-examples",
+            "inherits": "linux-release",
+            "cacheVariables": {
+                "RUSTY_AUDIO_EXAMPLES": "ON"
+            }
         }
     ]
 }

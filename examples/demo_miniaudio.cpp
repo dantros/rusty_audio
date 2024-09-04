@@ -19,6 +19,7 @@ sound file, you need multiple `ma_sound` objects.
 #include <cmath>
 #include <limits>
 #include <numbers>
+#include <cstdio>
 #include <miniaudio.h>
 #include <buffer.h>
 
