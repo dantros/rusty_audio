@@ -24,7 +24,7 @@ public:
         assert(0 < amplitude and amplitude <= 1.0);
     }
     
-    std::int32_t operator()(unsigned int milliseconds) const override
+    std::int32_t operator()(float milliseconds) const override
     {
         /* sampling a sinusoid */
         const float sample = mAmplitude * std::sin(mFrequencyRadMillis * milliseconds);
@@ -32,7 +32,7 @@ public:
         /* scaling it and casting it to int32 */
         const float scaledSample = MAX_INT32 * sample;
 
-        return static_cast<std::int32_t>(scaledSample);
+        return static_cast<float>(scaledSample);
     }
 
     float amplitude() const

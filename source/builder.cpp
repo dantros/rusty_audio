@@ -45,17 +45,15 @@ Buffer Builder::generate(unsigned int sampleRate, unsigned int channels) const
     soundBuffer.init(sampleRate, channels, totalDuration);
 
     std::size_t waveformIndex = 0;
-    unsigned int waveformStartTime = 0;
+    float waveformStartTime = 0.0f;
 
     Waveform* waveformPtr = mDescriptors.at(waveformIndex).get();
     assert(waveformPtr != nullptr);
 
-    const float deltaTimeMilliseconds = static_cast<float>(totalDuration) / soundBuffer.frames();
-
     for (std::size_t frame = 0; frame < soundBuffer.frames() ; ++frame)
     {
-        const unsigned int milliseconds = frame * deltaTimeMilliseconds;
-        const unsigned int localTime = milliseconds - waveformStartTime;
+        const float milliseconds = soundBuffer.time(frame);
+        const float localTime = milliseconds - waveformStartTime;
 
         Waveform& waveform = *waveformPtr;
         const std::int32_t sample = waveform(localTime);

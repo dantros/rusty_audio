@@ -46,27 +46,33 @@ int main(int argc, char** argv)
     }
 
     /* Audio Buffer */
-    const unsigned int milliseconds = 5000;
-    constexpr unsigned int sampleRate = 48000;
-    RustyAudio::Buffer soundBuffer;
-    soundBuffer.init(milliseconds, sampleRate, 2);
+    const unsigned int durationMs = 5000;
+    constexpr float amplitude = 0.5;
+    constexpr float frequency_hz = 500.0f;
 
-    const float frequency_hz = 500.0f;
-    const float frequency_rad = 2 * std::numbers::pi * frequency_hz;    
+    constexpr unsigned int sampleRate = 48000;
+    constexpr unsigned int channels = 2;
+
+    RustyAudio::Buffer soundBuffer;
+    soundBuffer.init(sampleRate, channels, durationMs);
+
+    const float frequency_rad = 2 * std::numbers::pi * frequency_hz / 1000;    
 
     for (size_t frame = 0; frame < soundBuffer.frames() ; ++frame)
     {
         /* a representation of time */
-        const float t = static_cast<float>(frame) / sampleRate;
+        const float timeMs = static_cast<float>(frame * durationMs) / soundBuffer.frames();
 
         /* sampling a sinusoid */
-        const float sample = std::sin(frequency_rad * t);
+        const float sample = amplitude * std::sin(frequency_rad * timeMs);
 
         /* casting it to int32 */
-        constexpr std::int32_t max = (std::numeric_limits<std::int32_t>::max)()*0.9; // artifacts if we reach the maximum value
-        const float scaledSample = max * sample;
+        constexpr std::int32_t MAX_INT32 = (std::numeric_limits<std::int32_t>::max)()*0.9; // artifacts if we reach the maximum value
+        const float scaledSample = MAX_INT32 * sample;
         std::int32_t integerSample = static_cast<std::int32_t>(scaledSample);
 
+        /* A Frame is a convenient facade of the sound buffer, implemented as an std::span,
+           meaning, modifications to the frame, are modifying the underlying buffer. */
         RustyAudio::Frame soundFrame = soundBuffer.at(frame);
         soundFrame = integerSample;
     }

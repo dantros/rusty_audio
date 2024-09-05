@@ -15,7 +15,7 @@ public:
         mDuration(duration)
     {}
     
-    virtual std::int32_t operator()(unsigned int milliseconds) const { return 0; };
+    virtual std::int32_t operator()(float milliseconds) const { return 0.0f; };
 
     unsigned int duration() const
     {

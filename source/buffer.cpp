@@ -52,9 +52,9 @@ std::size_t Buffer::channels() const
     return mChannels;
 }
 
-unsigned int Buffer::time(std::size_t frame) const
+float Buffer::time(std::size_t frame) const
 {
-    return (frame * duration()) / frames();
+    return static_cast<float>(frame * duration()) / frames();
 }
 
 unsigned int Buffer::duration() const
