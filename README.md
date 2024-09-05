@@ -24,7 +24,9 @@ A quick example:
     constexpr unsigned int channels = 2;
     RustyAudio::Buffer soundBuffer = soundBuilder.generate(sampleRate, channels);
 
-    RustyAudio::Player soundPlayer(soundBuffer);
+    RustyAudio::Player soundPlayer;
+    soundPlayer.init(soundBuffer);
+
     soundPlayer.play();
     
     std::cout << "Press enter to close";
@@ -45,33 +47,36 @@ RustyAudio::Buffer soundBuffer = soundBuilder.generate(sampleRate, channels);
 
 In `RustyAudio::Buffer` you can write any data you want, so the possibilities are wide open, you can generate music via code.
 ```
-    constexpr unsigned int sampleRate = 48000;
-    RustyAudio::Buffer soundBuffer(sampleRate, 2);
+    constexpr unsigned int durationMs = 5000;
+    constexpr float amplitude = 0.5;
+    constexpr float frequencyHz = 600.0f;
 
-    const unsigned int milliseconds = 5000;
-    soundBuffer.init(milliseconds);
-
-    const float frequency_hz = 500.0f;
-    const float frequency_rad = 2 * std::numbers::pi * frequency_hz;
+    RustyAudio::Buffer soundBuffer;
+    soundBuffer.init(sampleRate, channels, durationMs);
+    
+    const float frequencyRadMillis = 2 * std::numbers::pi * frequencyHz / 1000;
 
     for (size_t frame = 0; frame < soundBuffer.frames() ; ++frame)
     {
-        /* a representation of time */
-        const float t = static_cast<float>(frame) / sampleRate;
+        /* A representation of time */
+        const float timeMs = soundBuffer.time(frame);
 
-        /* sampling a sinusoid */
-        const float sample = std::sin(frequency_rad * t);
+        /* Sampling a sinusoid */
+        const float sample = amplitude * std::sin(frequencyRadMillis * timeMs);
 
-        /* casting it to int32 */
-        constexpr std::int32_t max = (std::numeric_limits<std::int32_t>::max)()*0.9; // sound artifacts if we reach the maximum value
-        const float scaledSample = max * sample;
+        /* Casting it to int32 */
+        constexpr std::int32_t MAX_INT32 = (std::numeric_limits<std::int32_t>::max)()*0.9; // sound artifacts if we reach the maximum value
+        const float scaledSample = MAX_INT32 * sample;
         std::int32_t integerSample = static_cast<std::int32_t>(scaledSample);
 
+        /* A Frame is a convenient facade of the sound buffer, implemented as an std::span,
+           meaning, modifications to the frame, are modifying the underlying buffer. */
         RustyAudio::Frame soundFrame = soundBuffer.at(frame);
         soundFrame = integerSample;
     }
 
-    RustyAudio::Player soundPlayer(soundBuffer);
+    RustyAudio::Player soundPlayer;
+    soundPlayer.init(soundBuffer);
 
     soundPlayer.play();
 
@@ -94,8 +99,8 @@ add_executable(rusty_audio_demo
     "source/rusty_audio_demo.cpp"
 )
 set_property(TARGET rusty_audio_demo PROPERTY CXX_STANDARD 20)
-target_include_directories(rusty_audio_demo PRIVATE ${NOTHOFAGUS_INCLUDE})
-target_link_libraries(rusty_audio_demo PRIVATE nothofagus)
+target_include_directories(rusty_audio_demo PRIVATE ${RUSTY_AUDIO_INCLUDE})
+target_link_libraries(rusty_audio_demo PRIVATE rusty_audio)
 ```
 There are other ways to work, choose whatever suits you best.
 
