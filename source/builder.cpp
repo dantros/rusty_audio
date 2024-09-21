@@ -21,14 +21,26 @@ void Builder::append(std::unique_ptr<Waveform> soundDescriptorPtr)
     mDescriptors.push_back(std::move(soundDescriptorPtr));
 }
 
-void Builder::appendSinusoids(std::initializer_list<WaveformSinusoid> sinusoids)
+void Builder::appendSinusoids(std::initializer_list<WaveformSinusoid> waves)
 {
-    for (const auto& sinusoid : sinusoids)
+    for (const auto& sinusoid : waves)
     {
         append(std::make_unique<WaveformSinusoid>(
             sinusoid.duration(),
             sinusoid.amplitude(),
             sinusoid.frequency()
+        ));
+    }
+}
+
+void Builder::appendSquareWaves(std::initializer_list<WaveformSquared> waves)
+{
+    for (const auto& squaredWave : waves)
+    {
+        append(std::make_unique<WaveformSquared>(
+            squaredWave.duration(),
+            squaredWave.amplitude(),
+            squaredWave.frequency()
         ));
     }
 }

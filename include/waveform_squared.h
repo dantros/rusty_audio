@@ -18,8 +18,9 @@ public:
     
     std::int32_t operator()(unsigned int milliseconds) const override
     {
-        std::int32_t sinusoidValue = WaveformSinusoid::operator()(milliseconds);
-        return sinusoidValue > 0 ? MAX_INT32 : -MAX_INT32;
+        const float sinusoidValue = std::sin(mFrequencyRadMillis * milliseconds);
+        const float amplitude =  sinusoidValue > 0 ? mAmplitude : -mAmplitude;
+        return MAX_INT32 * amplitude;
     }
 };
 
