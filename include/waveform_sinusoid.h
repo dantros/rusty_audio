@@ -45,7 +45,7 @@ public:
         return mFrequencyRadMillis * 1000 / (2 * std::numbers::pi);
     }
 
-private:
+protected:
     float mAmplitude;
     float mFrequencyRadMillis;
 };
