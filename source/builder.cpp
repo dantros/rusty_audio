@@ -60,7 +60,7 @@ Buffer Builder::generate(unsigned int sampleRate, unsigned int channels) const
         soundBuffer.at(frame) = sample;
 
         // if this is the last sample of the current descriptor, we need to switch to the next descriptor for the next sample.
-        if (localTime == waveform.duration() - 1)
+        if (localTime >= waveform.duration())
         {
             waveformStartTime += waveform.duration();
             ++waveformIndex;
@@ -70,8 +70,6 @@ Buffer Builder::generate(unsigned int sampleRate, unsigned int channels) const
             {
                 waveformPtr = mDescriptors.at(waveformIndex).get();
                 assert(waveformPtr != nullptr);
-
-                
             }
         }
     }

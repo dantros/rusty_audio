@@ -16,7 +16,7 @@ protected:
     // sound artifacts if we reach the maximum value
     static constexpr std::int32_t MAX_INT32 = (std::numeric_limits<std::int32_t>::max)()*0.9; 
 public:
-    WaveformSinusoid(unsigned int duration, float amplitude, float frequencyHz) :
+    WaveformSinusoid(float duration, float amplitude, float frequencyHz) :
         Waveform(duration),
         mAmplitude(amplitude),
         mFrequencyRadMillis(2 * std::numbers::pi * frequencyHz / 1000)
@@ -24,7 +24,7 @@ public:
         assert(0 < amplitude and amplitude <= 1.0);
     }
     
-    std::int32_t operator()(float milliseconds) const override
+    virtual std::int32_t operator()(float milliseconds) const override
     {
         /* sampling a sinusoid */
         const float sample = mAmplitude * std::sin(mFrequencyRadMillis * milliseconds);
