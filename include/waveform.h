@@ -1,29 +1,5 @@
 #pragma once
 
-#include "frame.h"
-#include <cstdint>
-#include <cstddef>
-#include <vector>
-
-namespace RustyAudio
-{
-
-class Waveform
-{
-public:
-    Waveform(float duration) :
-        mDuration(duration)
-    {}
-    
-    virtual std::int32_t operator()(float milliseconds) const { return 0.0f; };
-
-    float duration() const
-    {
-        return mDuration;
-    }
-
-protected:
-    float mDuration;
-};
-
-}
+// The Waveform base class has been superseded by WaveformVariant.
+// See waveform_variant.h for the std::variant-based waveform type.
+// This file is kept so existing includes do not break.

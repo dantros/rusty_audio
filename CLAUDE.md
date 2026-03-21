@@ -124,9 +124,9 @@ Composes waveforms sequentially and generates a buffer. Waveforms are played one
 ```cpp
 Builder builder;
 
-// Append individual waveforms (takes ownership via unique_ptr)
-builder.append(std::make_unique<WaveformSinusoid>(500, 0.5, 440.0f));
-builder.append(std::make_unique<WaveformSquared>(300, 0.8, 220.0f));
+// Append returns Builder& — chains are valid
+builder.append(std::make_unique<WaveformSinusoid>(500, 0.5, 440.0f))
+       .append(std::make_unique<WaveformSquared>(300, 0.8, 220.0f));
 
 // Append multiple sinusoids at once
 builder.appendSinusoids({

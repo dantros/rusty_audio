@@ -9,6 +9,7 @@
 #include "waveform_silence.h"
 #include "waveform_triangle.h"
 #include "waveform_sawtooth.h"
+#include "waveform_variant.h"
 #include "frame.h"
 #include "player.h"
 #include "note.h"

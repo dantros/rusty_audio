@@ -3,22 +3,27 @@
 #include "waveform_sinusoid.h"
 #include <cstdint>
 #include <cmath>
+#include <limits>
 
 namespace RustyAudio
 {
 
 // Triangle wave: linear rise from 0 to peak, fall through zero to trough, back to 0.
-// Waveform shape per period: 0 -> +1 -> 0 -> -1 -> 0
-class WaveformTriangle : public WaveformSinusoid
+// Shape per period: 0 -> +1 -> 0 -> -1 -> 0
+class WaveformTriangle
 {
+    static constexpr std::int32_t MAX_INT32 = (std::numeric_limits<std::int32_t>::max)()*0.9;
+
+    WaveformSinusoid mBase;
+
 public:
     WaveformTriangle(float duration, float amplitude, float frequencyHz) :
-        WaveformSinusoid(duration, amplitude, frequencyHz)
+        mBase(duration, amplitude, frequencyHz)
     {}
 
-    virtual std::int32_t operator()(float milliseconds) const override
+    std::int32_t operator()(float milliseconds) const
     {
-        const float phase = std::fmod(frequency() * milliseconds / 1000.0f, 1.0f);
+        const float phase = std::fmod(mBase.frequency() * milliseconds / 1000.0f, 1.0f);
 
         float sample;
         if (phase < 0.25f)
@@ -28,8 +33,12 @@ public:
         else
             sample = 4.0f * phase - 4.0f;
 
-        return static_cast<std::int32_t>(amplitude() * MAX_INT32 * sample);
+        return static_cast<std::int32_t>(mBase.amplitude() * MAX_INT32 * sample);
     }
+
+    float duration()  const { return mBase.duration(); }
+    float amplitude() const { return mBase.amplitude(); }
+    float frequency() const { return mBase.frequency(); }
 };
 
 }

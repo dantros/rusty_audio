@@ -1,22 +1,25 @@
 #pragma once
 
-#include "waveform.h"
 #include <cstdint>
 
 namespace RustyAudio
 {
 
-class WaveformSilence : public Waveform
+class WaveformSilence
 {
+    float mDuration;
+
 public:
     WaveformSilence(float duration) :
-        Waveform(duration)
+        mDuration(duration)
     {}
 
-    virtual std::int32_t operator()(float milliseconds) const override
+    std::int32_t operator()(float /*milliseconds*/) const
     {
         return 0;
     }
+
+    float duration() const { return mDuration; }
 };
 
 }

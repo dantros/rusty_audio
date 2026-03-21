@@ -1,5 +1,3 @@
-#pragma once
-
 #include "builder.h"
 #include <cassert>
 
@@ -8,38 +6,31 @@ namespace RustyAudio
 
 Builder::Builder()
 {
-
 }
 
 Builder::~Builder()
 {
-
 }
 
-void Builder::append(std::unique_ptr<Waveform> soundDescriptorPtr)
+Builder& Builder::append(WaveformVariant waveform)
 {
-    mDescriptors.push_back(std::move(soundDescriptorPtr));
+    mDescriptors.push_back(std::move(waveform));
+    return *this;
 }
 
-void Builder::appendSinusoids(std::initializer_list<WaveformSinusoid> sinusoids)
+Builder& Builder::appendSinusoids(std::initializer_list<WaveformSinusoid> sinusoids)
 {
     for (const auto& sinusoid : sinusoids)
-    {
-        append(std::make_unique<WaveformSinusoid>(
-            sinusoid.duration(),
-            sinusoid.amplitude(),
-            sinusoid.frequency()
-        ));
-    }
+        append(WaveformVariant{sinusoid});
+    return *this;
 }
 
 Buffer Builder::generate(unsigned int sampleRate, unsigned int channels) const
 {
     unsigned int totalDuration = 0;
-    for (auto& descriptor : mDescriptors)
-    {
-        totalDuration += descriptor->duration();
-    }
+    for (const auto& descriptor : mDescriptors)
+        totalDuration += static_cast<unsigned int>(
+            std::visit([](const auto& waveform) { return waveform.duration(); }, descriptor));
 
     RustyAudio::Buffer soundBuffer;
     soundBuffer.init(sampleRate, channels, totalDuration);
@@ -47,30 +38,29 @@ Buffer Builder::generate(unsigned int sampleRate, unsigned int channels) const
     std::size_t waveformIndex = 0;
     float waveformStartTime = 0.0f;
 
-    Waveform* waveformPtr = mDescriptors.at(waveformIndex).get();
-    assert(waveformPtr != nullptr);
-
-    for (std::size_t frame = 0; frame < soundBuffer.frames() ; ++frame)
+    for (std::size_t frame = 0; frame < soundBuffer.frames(); ++frame)
     {
+        assert(waveformIndex < mDescriptors.size());
+
         const float milliseconds = soundBuffer.time(frame);
         const float localTime = milliseconds - waveformStartTime;
 
-        Waveform& waveform = *waveformPtr;
-        const std::int32_t sample = waveform(localTime);
+        const WaveformVariant& current = mDescriptors.at(waveformIndex);
+
+        const std::int32_t sample = std::visit(
+            [localTime](const auto& waveform) { return waveform(localTime); },
+            current);
+
         soundBuffer.at(frame) = sample;
 
-        // if this is the last sample of the current descriptor, we need to switch to the next descriptor for the next sample.
-        if (localTime >= waveform.duration())
-        {
-            waveformStartTime += waveform.duration();
-            ++waveformIndex;
+        const float waveformDuration = std::visit(
+            [](const auto& waveform) { return waveform.duration(); },
+            current);
 
-            // maybe we are in the last descriptor, we dont want to go out of bounds.
-            if (waveformIndex != mDescriptors.size())
-            {
-                waveformPtr = mDescriptors.at(waveformIndex).get();
-                assert(waveformPtr != nullptr);
-            }
+        if (localTime >= waveformDuration)
+        {
+            waveformStartTime += waveformDuration;
+            ++waveformIndex;
         }
     }
 

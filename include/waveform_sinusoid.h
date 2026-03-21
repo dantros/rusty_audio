@@ -1,6 +1,5 @@
 #pragma once
 
-#include "waveform.h"
 #include <cstdint>
 #include <cmath>
 #include <numbers>
@@ -10,42 +9,33 @@
 namespace RustyAudio
 {
 
-class WaveformSinusoid : public Waveform
+class WaveformSinusoid
 {
 protected:
-    // sound artifacts if we reach the maximum value
-    static constexpr std::int32_t MAX_INT32 = (std::numeric_limits<std::int32_t>::max)()*0.9; 
+    // Slight headroom to avoid clipping artifacts at maximum amplitude
+    static constexpr std::int32_t MAX_INT32 = (std::numeric_limits<std::int32_t>::max)()*0.9;
+
 public:
     WaveformSinusoid(float duration, float amplitude, float frequencyHz) :
-        Waveform(duration),
+        mDuration(duration),
         mAmplitude(amplitude),
         mFrequencyRadMillis(2 * std::numbers::pi * frequencyHz / 1000)
     {
         assert(0 < amplitude and amplitude <= 1.0);
     }
-    
-    virtual std::int32_t operator()(float milliseconds) const override
+
+    std::int32_t operator()(float milliseconds) const
     {
-        /* sampling a sinusoid */
         const float sample = mAmplitude * std::sin(mFrequencyRadMillis * milliseconds);
-
-        /* scaling it and casting it to int32 */
-        const float scaledSample = MAX_INT32 * sample;
-
-        return static_cast<float>(scaledSample);
+        return static_cast<std::int32_t>(MAX_INT32 * sample);
     }
 
-    float amplitude() const
-    {
-        return mAmplitude;
-    }
-
-    float frequency() const
-    {
-        return mFrequencyRadMillis * 1000 / (2 * std::numbers::pi);
-    }
+    float duration() const  { return mDuration; }
+    float amplitude() const { return mAmplitude; }
+    float frequency() const { return mFrequencyRadMillis * 1000 / (2 * std::numbers::pi); }
 
 private:
+    float mDuration;
     float mAmplitude;
     float mFrequencyRadMillis;
 };
