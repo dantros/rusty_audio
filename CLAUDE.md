@@ -89,6 +89,34 @@ Square wave — same constructor as `WaveformSinusoid`, output is binary `±MAX_
 WaveformSquared(float durationMs, float amplitude, float frequencyHz)
 ```
 
+### `RustyAudio::WaveformSilence : Waveform`
+
+Silent gap — always returns 0. Useful as a rest between notes in a `Builder` sequence.
+
+```cpp
+WaveformSilence(float durationMs)
+```
+
+### `RustyAudio::WaveformTriangle : WaveformSinusoid`
+
+Triangle wave — linear rise/fall shape per period. Mellow analog character; odd harmonics
+that decay faster than a square wave (`1/n²` instead of `1/n`).
+
+```cpp
+WaveformTriangle(float durationMs, float amplitude, float frequencyHz)
+// Shape per period: 0 → +1 → 0 → -1 → 0
+```
+
+### `RustyAudio::WaveformSawtooth : WaveformSinusoid`
+
+Sawtooth wave — linear ramp from -1 to +1 per period then instant reset. Bright, buzzy
+timbre; all harmonics present (`1/n` rolloff like a square, but both even and odd).
+
+```cpp
+WaveformSawtooth(float durationMs, float amplitude, float frequencyHz)
+// Shape per period: -1 → +1 (instant reset at boundary)
+```
+
 ### `RustyAudio::Builder`
 
 Composes waveforms sequentially and generates a buffer. Waveforms are played one after another (not mixed/overlapped).
