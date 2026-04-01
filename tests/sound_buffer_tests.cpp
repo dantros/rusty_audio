@@ -1,8 +1,7 @@
-#include <gtest/gtest.h>
+#include <catch2/catch_test_macros.hpp>
 #include <rusty_audio.h>
 
-// Demonstrate some basic assertions.
-TEST(SoundDescriptorSinusoid01, BasicAssertions) {
+TEST_CASE("SoundDescriptorSinusoid01 - BasicAssertions", "[waveform]") {
   RustyAudio::WaveformSinusoid desc(1000, 1.0f, 600.0f);
-  EXPECT_EQ(desc(100), 1843);
+  REQUIRE(desc(100) == 1843);
 }

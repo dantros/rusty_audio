@@ -23,34 +23,18 @@ target_include_directories(rusty_audio PRIVATE
 )
 target_link_libraries(rusty_audio PRIVATE miniaudio)
 
+set(RUSTY_AUDIO_INCLUDE "${CMAKE_CURRENT_SOURCE_DIR}/include")
+set(MINIAUDIO_INCLUDE "${CMAKE_CURRENT_SOURCE_DIR}/third_party/miniaudio")
+
 get_directory_property(hasParent PARENT_DIRECTORY)
 if(hasParent)
-    set(RUSTY_AUDIO_INCLUDE
-        "${CMAKE_CURRENT_SOURCE_DIR}/include"
-        PARENT_SCOPE
-    )
-    set(MINIAUDIO_INCLUDE
-        "${CMAKE_CURRENT_SOURCE_DIR}/third_party/miniaudio"
-        PARENT_SCOPE
-    )
-else()
-    set(RUSTY_AUDIO_INCLUDE
-        "${CMAKE_CURRENT_SOURCE_DIR}/include"
-    )
-    set(MINIAUDIO_INCLUDE
-        "${CMAKE_CURRENT_SOURCE_DIR}/third_party/miniaudio"
-    )
+    set(RUSTY_AUDIO_INCLUDE "${RUSTY_AUDIO_INCLUDE}" PARENT_SCOPE)
+    set(MINIAUDIO_INCLUDE "${MINIAUDIO_INCLUDE}" PARENT_SCOPE)
 endif()
 
-
-
 option(RUSTY_AUDIO_BUILD_TESTS "Do you need tests?" OFF)
-if (${RUSTY_AUDIO_INSTALL})
-    option(BUILD_GMOCK "Builds the googlemock subproject" OFF)
-    option(INSTALL_GTEST "Enable installation of googletest. (Projects embedding googletest may want to turn this OFF.)" OFF)
-    option(GTEST_HAS_ABSL "Use Abseil and RE2. Requires Abseil and RE2 to be separately added to the build." OFF)
-    add_subdirectory("third_party/googletest")
-    set(GOOGLETEST_INCLUDE "third_party/googletest/googletest/include")
+if (${RUSTY_AUDIO_BUILD_TESTS})
+    add_subdirectory("third_party/Catch2")
     add_subdirectory("tests")
 endif()
 

@@ -17,7 +17,7 @@ CMake variables exported to the parent scope:
 
 CMake options:
 - `RUSTY_AUDIO_BUILD_EXAMPLES` (OFF) — build the demo executables
-- `RUSTY_AUDIO_BUILD_TESTS` (OFF) — build googletest suite
+- `RUSTY_AUDIO_BUILD_TESTS` (OFF) — build Catch2 test suite
 - `RUSTY_AUDIO_INSTALL` (ON) — install the static library
 
 Single include: `#include <rusty_audio.h>`
