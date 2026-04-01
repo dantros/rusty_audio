@@ -17,18 +17,15 @@ add_library(rusty_audio
     ${HEADERS}
 )
 set_property(TARGET rusty_audio PROPERTY CXX_STANDARD 20)
-target_include_directories(rusty_audio PRIVATE
-    "include"
-    "third_party/miniaudio"
+target_include_directories(rusty_audio
+    PUBLIC "include"
+    PRIVATE "third_party/miniaudio"
 )
 target_link_libraries(rusty_audio PRIVATE miniaudio)
 
-set(RUSTY_AUDIO_INCLUDE "${CMAKE_CURRENT_SOURCE_DIR}/include")
 set(MINIAUDIO_INCLUDE "${CMAKE_CURRENT_SOURCE_DIR}/third_party/miniaudio")
-
 get_directory_property(hasParent PARENT_DIRECTORY)
 if(hasParent)
-    set(RUSTY_AUDIO_INCLUDE "${RUSTY_AUDIO_INCLUDE}" PARENT_SCOPE)
     set(MINIAUDIO_INCLUDE "${MINIAUDIO_INCLUDE}" PARENT_SCOPE)
 endif()
 
