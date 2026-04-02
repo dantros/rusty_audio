@@ -1,10 +1,10 @@
 
-#include "player_impl.h"
+#include "miniaudio_play_backend.h"
 
 namespace RustyAudio
 {
 
-Player::PlayerImpl::PlayerImpl(Buffer& soundBuffer):
+MiniaudioPlayBackend::MiniaudioPlayBackend(Buffer& soundBuffer):
     mSoundBuffer(soundBuffer)
 {
     ma_result result;
@@ -20,7 +20,7 @@ Player::PlayerImpl::PlayerImpl(Buffer& soundBuffer):
     }
 
     std::int32_t* pExistingData = mSoundBuffer.data();
-    
+
     ma_audio_buffer_config config = ma_audio_buffer_config_init(ma_format_s32, mSoundBuffer.channels(), mSoundBuffer.frames(), pExistingData, NULL);
 
     if (ma_audio_buffer_init(&config, &mAudioBuffer) != MA_SUCCESS) {
@@ -40,40 +40,40 @@ Player::PlayerImpl::PlayerImpl(Buffer& soundBuffer):
     ma_node_attach_output_bus(&mSound, 0, ma_engine_get_endpoint(&mEngine), 0);
 }
 
-Player::PlayerImpl::~PlayerImpl()
+MiniaudioPlayBackend::~MiniaudioPlayBackend()
 {
     ma_sound_uninit(&mSound);
     ma_audio_buffer_uninit(&mAudioBuffer);
     ma_engine_uninit(&mEngine);
 }
 
-void Player::PlayerImpl::play()
+void MiniaudioPlayBackend::play()
 {
     ma_sound_start(&mSound);
 }
 
-void Player::PlayerImpl::pause()
+void MiniaudioPlayBackend::pause()
 {
     ma_sound_stop(&mSound);
 }
 
-void Player::PlayerImpl::stop()
+void MiniaudioPlayBackend::stop()
 {
     ma_sound_stop(&mSound);
     ma_sound_seek_to_pcm_frame(&mSound, 0);
 }
 
-bool Player::PlayerImpl::isPlaying() const
+bool MiniaudioPlayBackend::isPlaying() const
 {
     return ma_sound_is_playing(&mSound);
 }
 
-bool Player::PlayerImpl::isLooping() const
+bool MiniaudioPlayBackend::isLooping() const
 {
     return ma_sound_is_looping(&mSound);
 }
 
-void Player::PlayerImpl::setLooping(bool looping)
+void MiniaudioPlayBackend::setLooping(bool looping)
 {
     ma_sound_set_looping(&mSound, looping);
 }

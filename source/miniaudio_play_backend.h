@@ -1,18 +1,16 @@
 #pragma once
 
-#include "player.h"
 #include "buffer.h"
-#include <memory>
 #include <miniaudio.h>
 
 namespace RustyAudio
 {
 
-class Player::PlayerImpl
+class MiniaudioPlayBackend
 {
 public:
-    PlayerImpl(Buffer& soundBuffer);
-    ~PlayerImpl();
+    MiniaudioPlayBackend(Buffer& soundBuffer);
+    ~MiniaudioPlayBackend();
 
     void play();
     void pause();

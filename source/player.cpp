@@ -1,10 +1,18 @@
 
 #include "player.h"
-#include "player_impl.h"
+#include "play_backend.h"
 #include <memory>
 
 namespace RustyAudio
 {
+
+// PlayerImpl inherits from the selected play backend.
+// Defined here so backend headers stay out of the public API.
+class Player::PlayerImpl : public SelectedPlayBackend
+{
+public:
+    using SelectedPlayBackend::SelectedPlayBackend;
+};
 
 Player::Player()
 {
