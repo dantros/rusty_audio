@@ -16,9 +16,13 @@ add_executable(demo_builder2
 set_property(TARGET demo_builder2 PROPERTY CXX_STANDARD 20)
 target_link_libraries(demo_builder2 PRIVATE rusty_audio)
 
-add_executable(demo_miniaudio
-    "demo_miniaudio.cpp"
-)
-set_property(TARGET demo_miniaudio PROPERTY CXX_STANDARD 20)
-target_include_directories(demo_miniaudio PRIVATE ${MINIAUDIO_INCLUDE})
-target_link_libraries(demo_miniaudio PRIVATE rusty_audio)
+# demo_miniaudio directly uses miniaudio APIs, so it is only available
+# when the MINIAUDIO play backend is selected.
+if(NOT RUSTY_AUDIO_PLAY_BACKEND STREQUAL "SDL3")
+    add_executable(demo_miniaudio
+        "demo_miniaudio.cpp"
+    )
+    set_property(TARGET demo_miniaudio PROPERTY CXX_STANDARD 20)
+    target_include_directories(demo_miniaudio PRIVATE ${MINIAUDIO_INCLUDE})
+    target_link_libraries(demo_miniaudio PRIVATE rusty_audio)
+endif()
