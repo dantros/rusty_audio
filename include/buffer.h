@@ -19,6 +19,10 @@ public:
     /* Initialize a block of memory with value 0 to store the sound wave */
     void init(unsigned int sampleRate, unsigned int channels, unsigned int milliseconds);
 
+    /* Initialize from pre-existing sample data (e.g. decoded from an audio file) */
+    void initFromData(unsigned int sampleRate, unsigned int channels,
+                      std::vector<std::int32_t>&& samples);
+
     /* Interface to the underlying std::vector */
     const std::vector<std::int32_t>& buffer() const;
     std::vector<std::int32_t>& buffer();

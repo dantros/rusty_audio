@@ -22,6 +22,14 @@ void Buffer::init(unsigned int sampleRate, unsigned int channels, unsigned int m
     mBuffer.resize(size, 0);
 }
 
+void Buffer::initFromData(unsigned int sampleRate, unsigned int channels,
+                          std::vector<std::int32_t>&& samples)
+{
+    mSampleRate = sampleRate;
+    mChannels = channels;
+    mBuffer = std::move(samples);
+}
+
 const std::vector<std::int32_t>& Buffer::buffer() const
 {
     return mBuffer;
