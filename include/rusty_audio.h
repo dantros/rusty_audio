@@ -16,3 +16,4 @@
 #include "frame.h"
 #include "player.h"
 #include "note.h"
+#include "audio_decoder.h"
