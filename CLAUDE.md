@@ -1,6 +1,6 @@
 # RustyAudio
 
-A C++20 static library for generating and playing simple audio waves composed from sinusoids. Built on top of [miniaudio](https://miniaud.io/).
+A C++20 static library for generating, decoding, and playing audio. Supports procedural waveform synthesis and audio file decoding (WAV, FLAC, MP3). Built on top of [miniaudio](https://miniaud.io/) or SDL3 (selectable at build time).
 
 ## Build
 
@@ -13,9 +13,10 @@ target_link_libraries(your_target PRIVATE rusty_audio)
 
 CMake variables exported to the parent scope:
 - `RUSTY_AUDIO_INCLUDE` — path to `include/`
-- `MINIAUDIO_INCLUDE` — path to `third_party/miniaudio/`
+- `MINIAUDIO_INCLUDE` — path to `third_party/miniaudio/` (only when MINIAUDIO backend is selected)
 
 CMake options:
+- `RUSTY_AUDIO_PLAY_BACKEND` (`MINIAUDIO` | `SDL3`) — audio playback and decoding backend. When `SDL3` is selected, the `SDL3::SDL3-static` CMake target must already exist. Default: `MINIAUDIO`.
 - `RUSTY_AUDIO_BUILD_EXAMPLES` (OFF) — build the demo executables
 - `RUSTY_AUDIO_BUILD_TESTS` (OFF) — build Catch2 test suite
 - `RUSTY_AUDIO_INSTALL` (ON) — install the static library
@@ -24,7 +25,7 @@ Single include: `#include <rusty_audio.h>`
 
 ## Core Concepts
 
-Audio data is stored as **interleaved 32-bit signed integer samples** (`std::int32_t`) in a `Buffer`. A `Frame` is a lightweight `std::span`-based facade over one time-point across all channels — modifications to a `Frame` directly mutate the `Buffer`. A `Builder` composes a sequence of `Waveform` objects and generates a `Buffer` from them. A `Player` takes a `Buffer` reference and drives playback via miniaudio.
+Audio data is stored as **interleaved 32-bit signed integer samples** (`std::int32_t`) in a `Buffer`. A `Frame` is a lightweight `std::span`-based facade over one time-point across all channels — modifications to a `Frame` directly mutate the `Buffer`. A `Builder` composes a sequence of `Waveform` objects and generates a `Buffer` from them. A `Player` takes a `Buffer` reference and drives playback via the selected backend. Audio files can be decoded into a `Buffer` using the free functions in `audio_decoder.h`.
 
 ## Classes
 
@@ -34,7 +35,8 @@ Container for all PCM samples. Interleaved layout: `[ch0, ch1, ch0, ch1, ...]`.
 
 ```cpp
 Buffer buf;
-buf.init(sampleRate, channels, durationMs); // allocates, zero-fills
+buf.init(sampleRate, channels, durationMs);           // allocates, zero-fills
+buf.initFromData(sampleRate, channels, std::move(vec)); // from pre-decoded sample data
 
 buf.frames()           // number of frames (time points)
 buf.size()             // total samples = frames * channels
@@ -139,7 +141,7 @@ Buffer buf = builder.generate(sampleRate, channels);
 
 ### `RustyAudio::Player`
 
-Wraps miniaudio playback. Uses Pimpl — `PlayerImpl` is internal.
+Wraps audio playback (miniaudio or SDL3, depending on build config). Uses Pimpl — `PlayerImpl` is internal.
 
 ```cpp
 Player player;
@@ -213,6 +215,25 @@ builder.appendSinusoids({
 Buffer buf = builder.generate(48000, 2);
 ```
 
+### Decode audio file (demo_decode.cpp)
+
+```cpp
+Buffer buf = RustyAudio::decodeAudioFromFile("sound.wav");
+// buf.size() == 0 on failure
+
+Player player;
+player.init(buf);
+player.play();
+```
+
+### Decode audio from memory
+
+```cpp
+// e.g. data read from a virtual filesystem or embedded resource
+std::vector<uint8_t> fileBytes = readFile("sound.wav");
+Buffer buf = RustyAudio::decodeAudioFromMemory(fileBytes.data(), fileBytes.size());
+```
+
 ### miniaudio integration (demo_miniaudio.cpp)
 
 Use `buf.data()` and `buf.frames()` to feed a `ma_audio_buffer`:
@@ -224,6 +245,26 @@ ma_audio_buffer_init(&cfg, &audioBuffer);
 ma_sound_init_from_data_source(&engine, &audioBuffer, 0, NULL, &sound);
 ```
 
+## Audio File Decoding
+
+`audio_decoder.h` provides two free functions for decoding audio files into a `Buffer`:
+
+```cpp
+Buffer decodeAudioFromFile(const char* filePath);
+Buffer decodeAudioFromMemory(const void* data, std::size_t sizeInBytes);
+```
+
+Both return a default-constructed (empty, `size() == 0`) `Buffer` on failure. The decoded samples are converted to interleaved `std::int32_t` format to match the `Buffer` internal representation.
+
+**Backend-specific implementations:**
+
+| Backend | Implementation | Supported formats |
+|---|---|---|
+| MINIAUDIO | `miniaudio_audio_decoder.cpp` | WAV, FLAC, MP3 |
+| SDL3 | `sdl3_audio_decoder.cpp` | WAV |
+
+The public API (`audio_decoder.h`) is identical regardless of backend — only the set of supported formats differs.
+
 ## Key Constraints
 
 - All samples are `std::int32_t`. Scale by `std::numeric_limits<std::int32_t>::max() * 0.9` to avoid clipping artifacts at maximum amplitude.
@@ -231,4 +272,5 @@ ma_sound_init_from_data_source(&engine, &audioBuffer, 0, NULL, &sound);
 - `Player::init` takes `Buffer&` — the buffer must outlive the player. If the buffer may be destroyed before the player, copy the buffer first.
 - `Builder::append` takes `std::unique_ptr<Waveform>` — the builder takes ownership.
 - `appendSinusoids` accepts `std::initializer_list<WaveformSinusoid>` — waveforms are copied in (no unique_ptr needed here).
+- `decodeAudioFromFile` / `decodeAudioFromMemory` return an empty `Buffer` (not an exception) on failure — always check `buf.size() == 0`.
 - C++20 required (`std::numbers::pi`, `std::span`).
