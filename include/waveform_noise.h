@@ -1,7 +1,8 @@
 #pragma once
 
 #include <cstdint>
-#include <limits>
+
+#include "max_int32_audio.h"
 
 namespace RustyAudio
 {
@@ -29,15 +30,13 @@ public:
         x = (x ^ (x >> 16)) * 0x45d9f3bu;
         x ^= x >> 16;
         const float sample = (float(x) / float(std::numeric_limits<uint32_t>::max())) * 2.0f - 1.0f;
-        return static_cast<std::int32_t>(mAmplitude * MAX_INT32 * sample);
+        return static_cast<std::int32_t>(mAmplitude * MAX_INT32_AS_FLOAT * sample);
     }
 
     float duration()  const { return mDuration; }
     float amplitude() const { return mAmplitude; }
 
 private:
-    static constexpr std::int32_t MAX_INT32 = (std::numeric_limits<std::int32_t>::max)()*0.9;
-
     float mDuration;
     float mAmplitude;
 };

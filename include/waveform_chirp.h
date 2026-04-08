@@ -3,7 +3,8 @@
 #include <cstdint>
 #include <cmath>
 #include <numbers>
-#include <limits>
+
+#include "max_int32_audio.h"
 
 namespace RustyAudio
 {
@@ -33,7 +34,7 @@ public:
         const float phase = 2.0f * std::numbers::pi / 1000.0f
                             * (f0 * t + (f1 - f0) * t * t / (2.0f * T));
         const float sample = mAmplitude * std::sin(phase);
-        return static_cast<std::int32_t>(MAX_INT32 * sample);
+        return static_cast<std::int32_t>(MAX_INT32_AS_FLOAT * sample);
     }
 
     float duration()       const { return mDuration; }
@@ -42,8 +43,6 @@ public:
     float endFrequency()   const { return mEndFrequency; }
 
 private:
-    static constexpr std::int32_t MAX_INT32 = (std::numeric_limits<std::int32_t>::max)()*0.9;
-
     float mDuration;
     float mAmplitude;
     float mStartFrequency;

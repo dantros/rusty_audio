@@ -3,7 +3,8 @@
 #include "waveform_sinusoid.h"
 #include <cstdint>
 #include <cmath>
-#include <limits>
+
+#include "max_int32_audio.h"
 
 namespace RustyAudio
 {
@@ -23,7 +24,7 @@ public:
     {
         const float phase  = std::fmod(mBase.frequency() * milliseconds / 1000.0f, 1.0f);
         const float sample = (phase < mDutyCycle) ? 1.0f : -1.0f;
-        return static_cast<std::int32_t>(mBase.amplitude() * MAX_INT32 * sample);
+        return static_cast<std::int32_t>(mBase.amplitude() * MAX_INT32_AS_FLOAT * sample);
     }
 
     float duration()  const { return mBase.duration(); }
@@ -32,8 +33,6 @@ public:
     float dutyCycle() const { return mDutyCycle; }
 
 private:
-    static constexpr std::int32_t MAX_INT32 = (std::numeric_limits<std::int32_t>::max)()*0.9;
-
     WaveformSinusoid mBase;
     float mDutyCycle;
 };

@@ -3,18 +3,15 @@
 #include <cstdint>
 #include <cmath>
 #include <numbers>
-#include <limits>
 #include <cassert>
+
+#include "max_int32_audio.h"
 
 namespace RustyAudio
 {
 
 class WaveformSinusoid
 {
-protected:
-    // Slight headroom to avoid clipping artifacts at maximum amplitude
-    static constexpr std::int32_t MAX_INT32 = (std::numeric_limits<std::int32_t>::max)()*0.9;
-
 public:
     WaveformSinusoid(float duration, float amplitude, float frequencyHz) :
         mDuration(duration),
@@ -27,7 +24,7 @@ public:
     std::int32_t operator()(float milliseconds) const
     {
         const float sample = mAmplitude * std::sin(mFrequencyRadMillis * milliseconds);
-        return static_cast<std::int32_t>(MAX_INT32 * sample);
+        return static_cast<std::int32_t>(MAX_INT32_AS_FLOAT * sample);
     }
 
     float duration() const  { return mDuration; }
