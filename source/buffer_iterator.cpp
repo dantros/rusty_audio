@@ -1,4 +1,3 @@
-#pragma once
 
 #include "buffer_iterator.h"
 

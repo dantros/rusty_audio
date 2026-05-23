@@ -1,4 +1,3 @@
-#pragma once
 
 #include "buffer.h"
 #include <cassert>
@@ -20,6 +19,14 @@ void Buffer::init(unsigned int sampleRate, unsigned int channels, unsigned int m
     const unsigned int frames = (mSampleRate * milliseconds) / 1000;
     const std::size_t size = frames * mChannels;
     mBuffer.resize(size, 0);
+}
+
+void Buffer::initFromData(unsigned int sampleRate, unsigned int channels,
+                          std::vector<std::int32_t>&& samples)
+{
+    mSampleRate = sampleRate;
+    mChannels = channels;
+    mBuffer = std::move(samples);
 }
 
 const std::vector<std::int32_t>& Buffer::buffer() const
