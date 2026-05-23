@@ -1,6 +1,8 @@
 
 #include "miniaudio_play_backend.h"
 
+#include <cstdio>
+
 namespace RustyAudio
 {
 
