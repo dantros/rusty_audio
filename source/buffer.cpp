@@ -46,6 +46,7 @@ std::size_t Buffer::size() const
 
 std::size_t Buffer::frames() const
 {
+    if (mChannels == 0) return 0;   // empty / uninitialized buffer (e.g. failed decode)
     return mBuffer.size() / mChannels;
 }
 
@@ -61,11 +62,14 @@ std::size_t Buffer::channels() const
 
 float Buffer::time(std::size_t frame) const
 {
-    return static_cast<float>(frame * duration()) / frames();
+    const std::size_t frameCount = frames();
+    if (frameCount == 0) return 0.0f;
+    return static_cast<float>(frame * duration()) / frameCount;
 }
 
 unsigned int Buffer::duration() const
 {
+    if (mSampleRate == 0) return 0;   // empty / uninitialized buffer (e.g. failed decode)
     return (1000 * frames()) / mSampleRate;
 }
 
